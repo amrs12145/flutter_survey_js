@@ -23,6 +23,7 @@ class SurveyWidget extends StatefulWidget {
   final bool showQuestionsInOnePage;
   final SurveyController? controller;
   final WidgetBuilder? builder;
+  final SurveyElementBuilder? unsupportedBuilder; // Edited by Amr
 
   const SurveyWidget({
     Key? key,
@@ -33,6 +34,7 @@ class SurveyWidget extends StatefulWidget {
     this.onChange,
     this.controller,
     this.builder,
+    this.unsupportedBuilder, // Edited by Amr
     this.showQuestionsInOnePage = false,
   }) : super(key: key);
 
@@ -91,12 +93,12 @@ class SurveyWidgetState extends State<SurveyWidget> {
 
     return SurveyConfiguration.copyAncestor(
         context: context,
+        unsupportedBuilder: widget.unsupportedBuilder, // Edited by Amr
         child: ReactiveForm(
           formGroup: formGroup,
           child: StreamBuilder(
             stream: formGroup.valueChanges,
-            builder: (BuildContext context,
-                AsyncSnapshot<Map<String, Object?>?> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<Map<String, Object?>?> snapshot) {
               return SurveyProvider(
                 survey: widget.survey,
                 formGroup: formGroup,
@@ -104,9 +106,7 @@ class SurveyWidgetState extends State<SurveyWidget> {
                 currentPage: currentPage,
                 initialPage: initialPage,
                 showQuestionsInOnePage: widget.showQuestionsInOnePage,
-                child: Builder(
-                    builder: (context) =>
-                        (widget.builder ?? defaultBuilder)(context)),
+                child: Builder(builder: (context) => (widget.builder ?? defaultBuilder)(context)),
               );
             },
           ),
@@ -120,8 +120,7 @@ class SurveyWidgetState extends State<SurveyWidget> {
     _controlsMap = {};
     _currentPage = 0;
 
-    formGroup = elementsToFormGroup(context, widget.survey.getElements(),
-        controlsMap: _controlsMap);
+    formGroup = elementsToFormGroup(context, widget.survey.getElements(), controlsMap: _controlsMap);
 
     if (widget.answer != null) {
       formGroup.patchValue(widget.answer);
@@ -207,9 +206,8 @@ extension SurveyFormExtension on s.Survey {
   List<s.Elementbase> getElements() {
     return pages!.fold<List<s.Elementbase>>(
         [],
-        (previousValue, element) => previousValue
-          ..addAll(
-              element.elementsOrQuestions?.map((p) => p.realElement) ?? []));
+        (previousValue, element) =>
+            previousValue..addAll(element.elementsOrQuestions?.map((p) => p.realElement) ?? []));
   }
 }
 
@@ -228,8 +226,7 @@ class SurveyController {
   }
 
   void _bind(SurveyWidgetState state) {
-    assert(_widgetState == null,
-        "Don't use one SurveyController to multiple SurveyWidget");
+    assert(_widgetState == null, "Don't use one SurveyController to multiple SurveyWidget");
     _widgetState = state;
   }
 
