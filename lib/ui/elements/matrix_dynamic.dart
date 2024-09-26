@@ -11,8 +11,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 
 import 'matrix_dropdown_base.dart';
 
-Widget matrixDynamicBuilder(BuildContext context, s.Elementbase element,
-    {ElementConfiguration? configuration}) {
+Widget matrixDynamicBuilder(BuildContext context, s.Elementbase element, {ElementConfiguration? configuration}) {
   return MatrixDynamicElement(
     formControlName: element.name!,
     matrix: element as s.Matrixdynamic,
@@ -23,31 +22,22 @@ class MatrixDynamicElement extends StatelessWidget {
   final String formControlName;
   final s.Matrixdynamic matrix;
   final scrollController = ScrollController();
-  MatrixDynamicElement(
-      {Key? key, required this.formControlName, required this.matrix})
-      : super(key: key);
+  MatrixDynamicElement({Key? key, required this.formControlName, required this.matrix}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     createNew({Object? value}) {
       //create new formGroup
-      return elementsToFormGroup(
-          context,
-          (matrix.columns?.toList() ?? [])
-              .map((column) => matrixDropdownColumnToQuestion(matrix, column))
-              .toList(),
+      return elementsToFormGroup(context, (matrix.columns?.toList() ?? []).map((column) => matrixDropdownColumnToQuestion(matrix, column)).toList(),
           value: value);
     }
 
     return ReactiveWrapFormArray(
-      wrapper:
-          (BuildContext context, FormArray<Object?> formArray, Widget child) {
-        final effectiveDecoration = const InputDecoration()
-            .applyDefaults(Theme.of(context).inputDecorationTheme);
+      wrapper: (BuildContext context, FormArray<Object?> formArray, Widget child) {
+        final effectiveDecoration = const InputDecoration().applyDefaults(Theme.of(context).inputDecorationTheme);
 
         return InputDecorator(
-          decoration: effectiveDecoration.copyWith(
-              errorText: getErrorTextFromFormControl(context, formArray)),
+          decoration: effectiveDecoration.copyWith(errorText: getErrorTextFromFormControl(context, formArray)),
           child: child,
         );
       },
@@ -107,13 +97,8 @@ class MatrixDynamicElement extends StatelessWidget {
                             // final newV = HashSet<ValidatorFunction>.of(
                             //     [...c.validators, ...v]).toList();
                             //TODO runner
-                            c.setValidators(v);
-                            return SurveyConfiguration.of(context)!
-                                .factory
-                                .resolve(
-                                    context, q,
-                                    configuration: const ElementConfiguration(
-                                        hasTitle: false));
+                            c.setValidators([]);
+                            return SurveyConfiguration.of(context)!.factory.resolve(context, q, configuration: const ElementConfiguration(hasTitle: false));
                           },
                         ),
                       ));
@@ -135,9 +120,8 @@ class MatrixDynamicElement extends StatelessWidget {
 
         final screenWidth = MediaQuery.of(context).size.width;
         final colLength = (matrix.columns?.toList() ?? []).length;
-        final colFixedWidth = (screenWidth-32) / ((colLength > 3) ? 3 : colLength); // Max 3 columns in the screen
-        return LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
+        final colFixedWidth = (screenWidth - 32) / ((colLength > 3) ? 3 : colLength); // Max 3 columns in the screen
+        return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
           return Column(
             children: [
               ScrollConfiguration(

@@ -8,8 +8,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:flutter_survey_js/utils.dart';
 import 'matrix_dropdown_base.dart';
 
-Widget matrixDropdownBuilder(BuildContext context, s.Elementbase element,
-    {ElementConfiguration? configuration}) {
+Widget matrixDropdownBuilder(BuildContext context, s.Elementbase element, {ElementConfiguration? configuration}) {
   return MatrixDropdownElement(
     formControlName: element.name!,
     matrix: element as s.Matrixdropdown,
@@ -21,16 +20,13 @@ class MatrixDropdownElement extends StatelessWidget {
   final s.Matrixdropdown matrix;
 
   final scrollController = ScrollController();
-  MatrixDropdownElement(
-      {Key? key, required this.formControlName, required this.matrix})
-      : super(key: key);
+  MatrixDropdownElement({Key? key, required this.formControlName, required this.matrix}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ReactiveNestedForm(
       formControlName: formControlName,
-      child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
+      child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
         List<TableRow> list = <TableRow>[];
 
         /// Add title bar
@@ -59,7 +55,7 @@ class MatrixDropdownElement extends StatelessWidget {
                     verticalAlignment: TableCellVerticalAlignment.middle,
                     child: Container(
                       padding: const EdgeInsets.all(5),
-                      child: Text(row.castToItemvalue().text ?.getLocalizedText(context) ?? ""),
+                      child: Text(row.castToItemvalue().text?.getLocalizedText(context) ?? ""),
                     )),
                 ...(matrix.columns?.toList() ?? []).map((column) {
                   final q = matrixDropdownColumnToQuestion(matrix, column);
@@ -68,8 +64,7 @@ class MatrixDropdownElement extends StatelessWidget {
                   return TableCell(
                       verticalAlignment: TableCellVerticalAlignment.middle,
                       child: ReactiveNestedForm(
-                        formControlName:
-                            row.castToItemvalue().value!.toString(),
+                        formControlName: row.castToItemvalue().value!.toString(),
                         child: Builder(
                           builder: (context) {
                             final fg = ReactiveForm.of(context) as FormGroup;
@@ -78,13 +73,8 @@ class MatrixDropdownElement extends StatelessWidget {
                             // //concat validators
                             // final newV = HashSet<ValidatorFunction>.of(
                             //     [...c.validators, ...v]).toList();
-                            c.setValidators(v);
-                            return SurveyConfiguration.of(context)!
-                                .factory
-                                .resolve(
-                                    context, q,
-                                    configuration: const ElementConfiguration(
-                                        hasTitle: false));
+                            c.setValidators([]);
+                            return SurveyConfiguration.of(context)!.factory.resolve(context, q, configuration: const ElementConfiguration(hasTitle: false));
                           },
                         ),
                       ));
@@ -94,7 +84,7 @@ class MatrixDropdownElement extends StatelessWidget {
 
         final screenWidth = MediaQuery.of(context).size.width;
         final colLength = (matrix.columns?.toList() ?? []).length;
-        final colFixedWidth = (screenWidth-27) / ((colLength > 3) ? 3 : colLength+1); // Max 3 columns in the screen
+        final colFixedWidth = (screenWidth - 27) / ((colLength > 3) ? 3 : colLength + 1); // Max 3 columns in the screen
         return ScrollConfiguration(
             behavior: CustomScrollBehavior(),
             child: Scrollbar(

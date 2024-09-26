@@ -13,16 +13,14 @@ class CustomLayoutPage extends StatelessWidget {
   final s.Survey? survey;
   final Map<String, Object?>? answer;
 
-  const CustomLayoutPage({Key? key, this.survey, this.answer})
-      : super(key: key);
+  const CustomLayoutPage({Key? key, this.survey, this.answer}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final survey = this.survey;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Survey Customize:' +
-            (survey?.title?.getLocalizedText(context) ?? '')),
+        title: Text('Survey Customize:' + (survey?.title?.getLocalizedText(context) ?? '')),
       ),
       body: SafeArea(
         child: survey == null
@@ -30,7 +28,7 @@ class CustomLayoutPage extends StatelessWidget {
                 child: CircularProgressIndicator(),
               )
             : s.SurveyWidget(
-                showQuestionsInOnePage: true,
+                // showQuestionsInOnePage: true,
                 survey: survey,
                 answer: answer,
                 onChange: (v) {
@@ -49,9 +47,7 @@ class CustomLayoutPage extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Expanded(
-                                  child: Container(
-                                      child: JsonEditor.object(object: v))),
+                              Expanded(child: Container(child: JsonEditor.object(object: v))),
                               ElevatedButton(
                                 child: const Text('Close'),
                                 onPressed: () => Navigator.pop(context),
@@ -92,9 +88,7 @@ class CustomLayoutState extends State<CustomLayout> {
     IndexedWidgetBuilder itemBuilder(List<s.Elementbase> elements) {
       return (context, index) {
         if (index < elements.length && index >= 0) {
-          return SurveyConfiguration.of(context)!
-              .factory
-              .resolve(context, elements[index]);
+          return SurveyConfiguration.of(context)!.factory.resolve(context, elements[index]);
         } else {
           return Container(
             width: double.infinity,
@@ -103,8 +97,7 @@ class CustomLayoutState extends State<CustomLayout> {
       };
     }
 
-    final IndexedWidgetBuilder separatorBuilder =
-        (BuildContext context, int index) {
+    final IndexedWidgetBuilder separatorBuilder = (BuildContext context, int index) {
       return SurveyConfiguration.of(context)!.separatorBuilder.call(context);
     };
     return SingleChildScrollView(
@@ -137,10 +130,7 @@ class CustomLayoutState extends State<CustomLayout> {
 
   List<s.Elementbase> _consolidateQuestions(s.Survey survey) {
     return (survey.pages?.toList() ?? [])
-        .map<List<s.Elementbase>>((e) =>
-            e.elementsOrQuestions?.map((p) => p.realElement).toList() ??
-            <s.Elementbase>[])
-        .fold(<s.Elementbase>[],
-            (previousValue, element) => previousValue..addAll(element));
+        .map<List<s.Elementbase>>((e) => e.elementsOrQuestions?.map((p) => p.realElement).toList() ?? <s.Elementbase>[])
+        .fold(<s.Elementbase>[], (previousValue, element) => previousValue..addAll(element));
   }
 }

@@ -4,8 +4,7 @@ import 'package:flutter_survey_js/ui/form_control.dart';
 import 'package:flutter_survey_js/ui/reactive/reactive_wrap_form_array.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-typedef ReactiveNestedGroupArrayBuilder = Widget Function(
-    BuildContext context, FormGroup form, Widget? child);
+typedef ReactiveNestedGroupArrayBuilder = Widget Function(BuildContext context, FormGroup form, Widget? child);
 
 class ReactiveNestedGroupArray<T> extends StatelessWidget {
   final String? formArrayName;
@@ -32,14 +31,11 @@ class ReactiveNestedGroupArray<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ReactiveWrapFormArray(
-      wrapper:
-          (BuildContext context, FormArray<Object?> formArray, Widget child) {
-        final effectiveDecoration = const InputDecoration()
-            .applyDefaults(Theme.of(context).inputDecorationTheme);
+      wrapper: (BuildContext context, FormArray<Object?> formArray, Widget child) {
+        final effectiveDecoration = const InputDecoration().applyDefaults(Theme.of(context).inputDecorationTheme);
 
         return InputDecorator(
-          decoration: effectiveDecoration.copyWith(
-              errorText: getErrorTextFromFormControl(context, formArray)),
+          decoration: effectiveDecoration.copyWith(errorText: getErrorTextFromFormControl(context, formArray)),
           child: child,
         );
       },
@@ -48,13 +44,15 @@ class ReactiveNestedGroupArray<T> extends StatelessWidget {
       child: child,
       builder: (context, formArray, child) {
         while (formArray.controls.length < minLength) {
-          formArray.add(createNew());
+          // formArray.add(
+          //     // createNew()
+          //     );
         }
         final formGroups = <FormGroup>[];
         bool modified = false;
         for (final c in formArray.controls) {
           if (c is FormGroup) {
-            formGroups.add(c);
+            // formGroups.add(c);
           } else {
             formGroups.add(createNew(value: c.value));
             modified = true;
@@ -62,7 +60,7 @@ class ReactiveNestedGroupArray<T> extends StatelessWidget {
         }
         if (modified) {
           formArray.clear();
-          formArray.addAll(formGroups);
+          // formArray.addAll(formGroups);
         }
         final controls = formArray.controls.cast<FormGroup>().toList();
         return Column(children: [
@@ -74,8 +72,7 @@ class ReactiveNestedGroupArray<T> extends StatelessWidget {
               children: [
                 //build
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 12.5, right: 12.5, left: 8, bottom: 8),
+                  padding: const EdgeInsets.only(top: 12.5, right: 12.5, left: 8, bottom: 8),
                   child: builder(context, form, child),
                 ),
                 if (formArray.controls.length > minLength)
@@ -108,7 +105,7 @@ class ReactiveNestedGroupArray<T> extends StatelessWidget {
               padding: const EdgeInsets.all(5),
               child: ElevatedButton(
                 onPressed: () {
-                  formArray.add(createNew());
+                  // formArray.add(createNew());
                 },
                 child: Text(S.of(context).add),
               ),

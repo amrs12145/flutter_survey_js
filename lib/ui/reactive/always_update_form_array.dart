@@ -8,8 +8,8 @@ class AlwaysUpdateFormArray<T> extends FormArray<T> {
     int asyncValidatorsDebounceTime = 250,
     bool disabled = false,
   }) : super(controls,
-            validators: validators,
-            asyncValidators: asyncValidators,
+            //validators: validators,
+            //asyncValidators: asyncValidators,
             disabled: disabled,
             asyncValidatorsDebounceTime: asyncValidatorsDebounceTime);
 
@@ -22,4 +22,3 @@ class AlwaysUpdateFormArray<T> extends FormArray<T> {
     return updateValue(value, updateParent: updateParent, emitEvent: emitEvent);
   }
 }
-

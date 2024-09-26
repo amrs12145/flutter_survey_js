@@ -8,8 +8,7 @@ import 'package:flutter_survey_js_model/flutter_survey_js_model.dart' as s;
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:flutter_survey_js/utils.dart';
 
-Widget textBuilder(BuildContext context, s.Elementbase element,
-    {ElementConfiguration? configuration}) {
+Widget textBuilder(BuildContext context, s.Elementbase element, {ElementConfiguration? configuration}) {
   final e = element as s.Text;
   final String? hintText = e.placeholder?.getLocalizedText(context);
   Widget widget = ReactiveTextField(
@@ -88,35 +87,24 @@ Widget textBuilder(BuildContext context, s.Elementbase element,
       decoration: InputDecoration(hintText: hintText),
     );
   }
-  return widget.wrapQuestionTitle(context, element,
-      configuration: configuration);
+  return widget.wrapQuestionTitle(context, element, configuration: configuration);
 }
 
-AbstractControl textControlBuilder(BuildContext context, s.Elementbase element,
-    {validators = const <ValidatorFunction>[], Object? value}) {
+AbstractControl textControlBuilder(BuildContext context, s.Elementbase element, {validators = const <ValidatorFunction>[], Object? value}) {
   final e = element as s.Text;
-  if (e.inputType == s.TextInputType.date ||
-      e.inputType == s.TextInputType.datetimeLocal) {
-    return FormControl<String>(
-        validators: validators,
-        value: e.defaultValue.tryCastToString() ?? value.tryCastToString());
+  if (e.inputType == s.TextInputType.date || e.inputType == s.TextInputType.datetimeLocal) {
+    return FormControl<String>(validators: validators, value: e.defaultValue.tryCastToString() ?? value.tryCastToString());
   }
   if (e.inputType == s.TextInputType.color) {
-    return FormControl<String>(
-        validators: validators,
-        value: e.defaultValue.tryCastToString() ?? value.tryCastToString());
+    return FormControl<String>(validators: validators, value: e.defaultValue.tryCastToString() ?? value.tryCastToString());
   }
   if (e.inputType == s.TextInputType.email) {
-    return FormControl<String>(
-        validators: [...validators, Validators.email],
-        value: e.defaultValue.tryCastToString() ?? value.tryCastToString());
+    return FormControl<String>(validators: [...validators, Validators.email], value: e.defaultValue.tryCastToString() ?? value.tryCastToString());
   }
   if (e.inputType == s.TextInputType.number) {
-    return FormControl<num>(
-        validators: [...validators, NullableNumberValidator().validate],
-        value: e.defaultValue.tryCastToNum() ?? value.tryCastToNum());
+    return FormControl<num>(validators: [
+      // ...validators, NullableNumberValidator().validate
+    ], value: e.defaultValue.tryCastToNum() ?? value.tryCastToNum());
   }
-  return FormControl<String>(
-      validators: validators,
-      value: e.defaultValue.tryCastToString() ?? value.tryCastToString());
+  return FormControl<String>(validators: validators, value: e.defaultValue.tryCastToString() ?? value.tryCastToString());
 }

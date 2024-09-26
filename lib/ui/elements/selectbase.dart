@@ -4,6 +4,7 @@ import 'package:flutter_survey_js/ui/validators.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:flutter_survey_js_model/flutter_survey_js_model.dart' as s;
 import 'package:flutter_survey_js/utils.dart';
+
 const otherValue = "other";
 const noneValue = "none";
 
@@ -44,33 +45,25 @@ class SelectbaseWidgetState extends State<SelectbaseWidget> {
                         maxLines: null,
                         keyboardType: TextInputType.multiline,
                         onChanged: (control) {
-                          widget.otherValueChanged
-                              ?.call(control.value?.toString() ?? "");
+                          widget.otherValueChanged?.call(control.value?.toString() ?? "");
                         },
-                        decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            hintText: element.otherPlaceholder?.getLocalizedText(context)),
+                        decoration: InputDecoration(border: const OutlineInputBorder(), hintText: element.otherPlaceholder?.getLocalizedText(context)),
                       )
                     : TextField(
                         controller: widget.controller._otherTextController,
                         maxLines: null,
                         keyboardType: TextInputType.multiline,
-                        decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            hintText: element.otherPlaceholder?.getLocalizedText(context)),
+                        decoration: InputDecoration(border: const OutlineInputBorder(), hintText: element.otherPlaceholder?.getLocalizedText(context)),
                         onChanged: (v) {
                           widget.otherValueChanged?.call(v);
                         }),
-              if (controller.showCommentArea)
-                Text(controller.getCommentLocaledText(context)),
+              if (controller.showCommentArea) Text(controller.getCommentLocaledText(context)),
               if (controller.showCommentArea)
                 ReactiveTextField<dynamic>(
                   formControlName: controller.getCommentName(),
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      hintText: element.commentPlaceholder?.getLocalizedText(context)),
+                  decoration: InputDecoration(border: const OutlineInputBorder(), hintText: element.commentPlaceholder?.getLocalizedText(context)),
                 ),
             ]);
           },
@@ -118,8 +111,9 @@ class SelectbaseController extends ChangeNotifier {
     final name = getCommentName();
     if (!_fg.contains(name)) {
       _fg.addAll({
-        getCommentName(): fb.control<String>(
-            "", [if (element.isRequired ?? false) NonEmptyValidator.get])
+        getCommentName(): fb.control<String>("", [
+          // if (element.isRequired ?? false) NonEmptyValidator.get
+        ])
       });
     }
   }

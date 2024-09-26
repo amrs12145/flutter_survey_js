@@ -76,9 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     loader = Future.wait<String?>(
       [
-        ...TestJsonType.values.map((e) => rootBundle
-            .loadString(e.fileLocation)
-            .then((value) => _surveyMap[e] = JsonElement.format(value))),
+        ...TestJsonType.values.map((e) => rootBundle.loadString(e.fileLocation).then((value) => _surveyMap[e] = JsonElement.format(value))),
         getSurvey(),
       ],
     ).then((value) {
@@ -141,8 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     survey = _surveyMap[selected!]!;
                   });
                 },
-                items:
-                    _surveyMap.entries.map<DropdownMenuItem<TestJsonType>>((p) {
+                items: _surveyMap.entries.map<DropdownMenuItem<TestJsonType>>((p) {
                   return DropdownMenuItem<TestJsonType>(
                       value: p.key,
                       child: Text(
@@ -154,9 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: JsonEditor.string(
                 jsonString: survey,
                 onValueChanged: (value) async {
-                  if (value.toString() !=
-                          JsonElement.fromString(survey).toString() &&
-                      mounted) {
+                  if (value.toString() != JsonElement.fromString(survey).toString() && mounted) {
                     await storeSurvey(value.toString());
                     setState(() {
                       survey = value.toString();

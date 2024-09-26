@@ -83,8 +83,7 @@ List<ValidatorFunction> questionToValidators(s.Question question) {
         if (value.allowDigits != null) {
           res.add((control) {
             if (control.value is String) {
-              if (!value.allowDigits! &&
-                  (control.value as String).contains('.')) {
+              if (!value.allowDigits! && (control.value as String).contains('.')) {
                 return {'allowDigits': value.allowDigits};
               }
             }
