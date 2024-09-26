@@ -22,7 +22,7 @@ dependencies:
   reactive_segmented_control: ^2.0.0
   reactive_advanced_switch: ^2.0.0
   reactive_image_picker: ^4.0.0
-  implicitly_animated_reorderable_list_2: ^0.5.0
+  implicitly_animated_reorderable_list_2: ^0.6.0
   flutter_colorpicker: ^1.0.3
   signature: ^5.3.2
   logging: ^1.0.1
